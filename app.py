@@ -38,16 +38,6 @@ if st.button("💾 Simpan"):
         index=False
     )
     st.success("✅ Data berhasil disimpan!")
-   
-#Preview Data   
-st.write("Preview Data:")
-st.write({
-    "nama": nama,
-    "tanggal": tanggal,
-    "jenis": jenis,
-    "kategori": kategori,
-    "nominal": nominal
-})
 
 #Riwayat Transaksi
 st.subheader("📋 Riwayat Transaksi")
@@ -68,7 +58,7 @@ st.dataframe(data)
 st.download_button(
    label = "Tekan untuk Download Data",
    data = data.to_csv(index=False),
-   file_name = "transaksi.csv",
+   file_name = f"transaksi_{bulan}.csv",
    mime = "text/csv"
 )
 
@@ -93,8 +83,6 @@ st.metric(label = "Total Pengeluaran",
 st.metric(label = "Saldo",
           value = f"Rp {saldo:,}"
           )
-
-st.write(data)
 
 #Grafik Keuangan Pemasukan
 st.subheader("📈 Grafik Keuangan Pemasukan")
@@ -132,27 +120,34 @@ if not pengeluaran_kategori.empty:
 else:
     st.info("Belum ada data pengeluaran untuk ditampilkan.")
 
-#pie chart pemasukan
+#Pie Chart Pemasukan
 st.subheader("📊 Pie Chart Pemasukan")
-fig, ax = plt.subplots()
-ax.pie(
-    pemasukan_kategori,
-    labels = pemasukan_kategori.index,
-    autopct = "%1.1f%%",
-    startangle = 90
-)
-ax.set_title("Persentase Pemasukan")
-st.pyplot(fig)
 
+if not pemasukan_kategori.empty:
+    fig, ax = plt.subplots()
+    ax.pie(
+        pemasukan_kategori,
+        labels = pemasukan_kategori.index,
+        autopct = "%1.1f%%",
+        startangle = 90
+    )
+    ax.set_title("Persentase Pemasukan")
+    st.pyplot(fig)
 
-#pie chart pengeluaran
+else:
+    st.info("Belum ada data pemasukan untuk ditampilkan.")
+
+#Pie Chart Pengeluaran
 st.subheader("📊 Pie Chart Pengeluaran")
-fig, ax = plt.subplots()
-ax.pie(
-    pengeluaran_kategori,
-    labels = pengeluaran_kategori.index,
-    autopct = "%1.1f%%",
-    startangle = 90
-)
-ax.set_title("Persentase Pengeluaran")
-st.pyplot(fig)
+if not pengeluaran_kategori.empty:
+    fig, ax = plt.subplots()
+    ax.pie(
+        pengeluaran_kategori,
+        labels = pengeluaran_kategori.index,
+        autopct = "%1.1f%%",
+        startangle = 90
+    )
+    ax.set_title("Persentase Pengeluaran")
+    st.pyplot(fig)
+else:
+    st.info("Belum ada data pengeluaran untuk ditampilkan.")
