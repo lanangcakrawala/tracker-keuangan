@@ -62,6 +62,24 @@ st.download_button(
    mime = "text/csv"
 )
 
+#Tombol Reset Data
+if st.button("🗑️ Tekan untuk Reset Data"):
+    data_kosong = pd.DataFrame(columns=[
+        "nama",
+        "tanggal",
+        "jenis",
+        "kategori",
+        "nominal"
+    ])
+    data_kosong.to_csv(
+        "transaksi.csv",
+        mode="w",
+        header=True,
+        index=False
+    )
+    st.success("✅ Data berhasil direset!")
+    
+
 #Tampilkan Ringkasan Keuangan
 st.subheader("📊 Ringkasan Keuangan")
 pemasukan = data[data["jenis"] == "Pemasukan"]
